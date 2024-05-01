@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from utils.generate_code import generate_code
-from .models import Profile
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 
 
 class Profile(models.Model):
@@ -13,7 +12,7 @@ class Profile(models.Model):
     code=models.CharField(max_length=50,default=generate_code)
 
 
-    def __Str__(self):
+    def __str__(self):
         return str(self.user)
     
 @receiver(post_save,sender=User)    
