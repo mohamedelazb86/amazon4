@@ -20,6 +20,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def save(self,*args,**kwargs):
+        self.slug=slugify(self.title)
+        super(Post,self).save(*args,**kwargs)
+
+
 class Category(models.Model):
     name=models.CharField(max_length=120)
 
@@ -29,7 +35,7 @@ class Category(models.Model):
 class Review(models.Model):
     user=models.CharField(max_length=120)
     post=models.ForeignKey(Post,related_name='review_post',on_delete=models.CASCADE)
-    content=models.CharField(max_length=500)
+    content=models.TextField(max_length=500)
     publish_date=models.DateTimeField(default=timezone.now)
     rate=models.IntegerField(choices=[(i,i) for i in range(1,6)])
 
