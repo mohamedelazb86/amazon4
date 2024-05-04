@@ -30,6 +30,23 @@ class Product(models.Model):
         self.slug=slugify(self.name)
         super(Product,self).save(*args,**kwargs)
 
+    @property
+    def review_count(self):
+        reviews=self.review_product.all().count()
+        return reviews
+    @property
+    def avg_rate(self):
+        reviews=self.review_product.all()
+        toatal=0
+        if len(reviews) > 0:
+            for item in reviews:
+                toatal +=item.rate
+            avg=toatal/len(reviews)
+        else:
+            avg=0
+        return avg
+            
+
 
 class Brand(models.Model):
     name=models.CharField(max_length=120)
