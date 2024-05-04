@@ -6,6 +6,7 @@ from django.views.generic import ListView,DetailView
 class Product_List(ListView):
     model=Product
     template_name='products/product_list.html'
+    paginate_by=24
 
 class Product_Detail(DetailView):
     model=Product
