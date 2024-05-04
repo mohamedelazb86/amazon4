@@ -24,6 +24,7 @@ class Product_Detail(DetailView):
 class Brand_list(ListView):
     model=Brand
     template_name='products/brand_list.html'
+    paginate_by=25
 
 class Brand_Detail(DetailView):
     model=Brand
