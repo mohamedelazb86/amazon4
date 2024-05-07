@@ -18,5 +18,12 @@ class Setting(models.Model):
     def __str__(self):
         return self.name
     
+
+class Deliver_Fee(models.Model):
+    fee=models.IntegerField()
+
+    def __str__(self):
+        return str(self.fee)
+    
     
 
