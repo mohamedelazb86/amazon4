@@ -60,6 +60,14 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+
+    @property
+    def cart_total(self):
+        total=0
+        for item in self.detatil_cart.all():
+            total +=item.total
+        return round(total,2)
 
 class Cart_Detail(models.Model):
     cart=models.ForeignKey(Cart,related_name='detatil_cart',on_delete=models.CASCADE)
