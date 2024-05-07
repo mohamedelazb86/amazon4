@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_summernote', 
     "django_bootstrap5",
     'rest_framework',
+    'django_filters',
 
     # my apps
     'blog',
@@ -61,6 +62,9 @@ REST_FRAMEWORK = {
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 50
+}
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

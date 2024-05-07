@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Product,Brand,Review,ImagePOroduct
 from django.views.generic import ListView,DetailView
 from django.db.models.aggregates import Count
@@ -15,7 +15,7 @@ class Product_Detail(DetailView):
 
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
-        context["reviews"] = Review.objects.filter(product=self.get_object())
+        context["reviews"] = Review.objects.filter(product=self.get_object()).order_by('-id')[:3]
         context["images"] = ImagePOroduct.objects.filter(product=self.get_object())
         context["related"] = Product.objects.filter(brand=self.get_object().brand)
 
@@ -52,10 +52,24 @@ class Brand_Detail(ListView):
         context = super().get_context_data(**kwargs)
         context["brand"] =Brand.objects.filter(slug=self.kwargs['slug']).annotate(product_count=Count('product_brand'))[0]
         return context
-    
-    
 
+
+def add_review(request,slug):
+    product=Product.objects.get(slug=slug)
    
+    review=request.POST['rate']
+    rate=request.POST['rating']
+    user=request.user
+
+    Review.objects.create(
+        user=user,
+        product=product,
+        rate=rate,
+        review=review
+    )
+    return redirect(f'/products/{slug}')
+
+
     
 
     
