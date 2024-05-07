@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'blog',
     'products',
     'settings',
+    'orders',
 ]
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
