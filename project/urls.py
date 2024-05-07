@@ -24,6 +24,7 @@ urlpatterns = [
     path('',include('settings.urls')),
     path('blog/',include('blog.urls')),
     path('products/',include('products.urls')),
+    path('orders/',include('orders.urls')),
 
     path('api-auth/', include('rest_framework.urls')),
 
