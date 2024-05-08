@@ -4,6 +4,7 @@ from utils.generate_code import generate_code
 from django.utils import timezone
 from products.models import Product
 from accounts.models import Address
+import datetime
 
 ORDER_TYPE=[
     ('Recieved','Recieved'),
@@ -47,6 +48,12 @@ class Copoun(models.Model):
 
     def __str__(self):
         return self.code
+    
+    def save(self,*args,**kwargs):
+        week=datetime.timedelta(days=7)
+        self.end_date=self.start_date +week
+        super(Copoun,self).save(*args,**kwargs)
+
 
 CART_TYPE=[
     ('Inprogress','Inprogress'),

@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from .models import Cart,Cart_Detail
+from .models import Cart,Cart_Detail,Copoun
 from settings.models import Deliver_Fee
+from django.shortcuts import get_object_or_404
+import datetime
 
 from .models import Order,Order_Detail
 
@@ -17,6 +19,40 @@ def checkout(request):
     cart=Cart.objects.get(user=request.user,status='Inprogress')
     cart_detail=Cart_Detail.objects.filter(cart=cart)
     delivery_fee=Deliver_Fee.objects.last().fee
+
+    if request.method =='POST':
+        copoun_code=request.POST['copoun_code']
+        #copoun=Copoun.objects.get(code=copoun_code)
+        copoun=get_object_or_404(Copoun,code=copoun_code)
+        if copoun and copoun.quantity > 0:
+            today=datetime.datetime.today().date()
+            if today >= copoun.start_date and today <= copoun.end_date :
+                copoun_value=cart.cart_total /100*copoun.discount
+                subtotal = cart.cart_total - copoun_value
+
+                total = subtotal + delivery_fee
+
+                cart.copoun=copoun
+                cart.total_with_copon=subtotal
+                cart.save()
+
+                copoun.quantity -=1
+                copoun.save()
+
+              
+                return render(request,'orders/checkout.html',{
+                'cart':cart,
+                'cart_detail':cart_detail,
+                'delivery_fee':delivery_fee,
+                'subtotal':subtotal,
+                'discount':copoun_value,
+                'total':total,
+                        })
+
+
+
+
+        
 
     subtotal=cart.cart_total
     discount=0
