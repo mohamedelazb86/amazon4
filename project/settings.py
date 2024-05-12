@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     'rest_framework',
     'django_filters',
+     
+   'drf_yasg',
 
     # my apps
     'blog',
